@@ -18,29 +18,29 @@
       let menuTitle = createTag('h2', 'menu__title', container, 'Меню')
       let menuInputText = createTag('div', 'menu__input_text', container, 'Количество карт:')
       let menuInput = createTag('input', 'menu__input', container)
-      menuInput.setAttribute("type", "number");
+      menuInput.setAttribute("type", "number")
       menuInput.setAttribute('value', '16')
       let menuStartBtn = createTag('button', 'btn', container, 'Играть')
 
-      let cardArr = [];
+      let cardArr = []
 
       const endFunction = () => {
-        let cardCount = menuInput.value;
+        let cardCount = menuInput.value
 
         if (cardCount < 2) cardCount = 2
         if (cardCount > 100) cardCount = 100
 
         for (let count = 0; count < Math.floor(cardCount / 2); count++) {
-          cardArr.push(count);
-          cardArr.push(count);
+          cardArr.push(count)
+          cardArr.push(count)
         }
 
-        container.removeChild(menuTitle);
-        container.removeChild(menuInputText);
-        container.removeChild(menuInput);
-        container.removeChild(menuStartBtn);
+        container.removeChild(menuTitle)
+        container.removeChild(menuInputText)
+        container.removeChild(menuInput)
+        container.removeChild(menuStartBtn)
 
-        resolve(cardArr);
+        resolve(cardArr)
       }
 
       menuInput.addEventListener('keydown', (event) => {
@@ -59,15 +59,15 @@
 
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+        let j = Math.floor(Math.random() * (i + 1))
+        [array[i], array[j]] = [array[j], array[i]]
       }
-      return array;
+      return array
     }
 
     function createField(arr) {
       let cardsList = document.createElement("ul");
-      let idCount = 0;
+      let idCount = 0
 
       for (i of shuffle(arr)) {
         let card = document.createElement("li");
@@ -84,8 +84,8 @@
         let cardFront = createTag('div', 'card_front', cardInner, i+'')
         let cardBack = createTag('div', 'card_back', cardInner, i+'')
 
-        cardsList.append(card);
-        // card.innerHTML = i;
+        cardsList.append(card)
+        // card.innerHTML = i
         cardFront.id = idCount
         cardBack.id = idCount
         idCount++
@@ -95,14 +95,14 @@
     }
 
     function solvedCheck(cardsList) {
-      let count = 0;
+      let count = 0
       for (card of cardsList.children) {
         if (card.children[0].children[0].classList.contains("solved")) {
-          count++;
+          count++
         }
       }
 
-      return count;
+      return count
     }
 
     let header = createTag('div', 'game_header', container)
@@ -122,8 +122,8 @@
       timer.innerHTML = `${minutes}:${seconds}`
     }, 1000)
 
-    let field = createField(cardArr);
-    fieldContainer.append(field);
+    let field = createField(cardArr)
+    fieldContainer.append(field)
 
     let errorsCount = 0
 
@@ -136,8 +136,8 @@
         resolve(['loose', minutes, seconds])
       }
 
-      let clickedCardsArr = [];
-      let clickedCardCount;
+      let clickedCardsArr = []
+      let clickedCardCount
 
       field.onclick = (event) => {
 
@@ -154,9 +154,9 @@
           card.parentNode.parentNode.classList.toggle('scaled')
         },150)
         
-        card.classList.add("clicked");
+        card.classList.add("clicked")
 
-        clickedCardsArr.push(card);
+        clickedCardsArr.push(card)
 
         setTimeout(() => {
           if (clickedCardsArr.length > 1) {
@@ -180,7 +180,7 @@
                     document.getElementById(clickedCardsArr[1].id).classList.remove("clicked")
                 }
 
-            clickedCardsArr = [];
+            clickedCardsArr = []
           }
 
           clickedCardCount = solvedCheck(field);
@@ -191,9 +191,9 @@
             container.removeChild(fieldContainer)
             container.removeChild(header)
             clearInterval(timerInterval)
-            resolve(['win', minutes, seconds]);
+            resolve(['win', minutes, seconds])
           }
-        }, 350);
+        }, 350)
       };
     });
   }
@@ -222,14 +222,14 @@
 
   async function run() {
     while (true) {
-      let arr = await menuScreen();
+      let arr = await menuScreen()
 
-      let res = await game(arr);
+      let res = await game(arr)
 
-      await endScreen(res);
+      await endScreen(res)
     }
   }
 
-  document.addEventListener("DOMContentLoaded", run );
+  document.addEventListener("DOMContentLoaded", run )
 
 })();
