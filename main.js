@@ -59,18 +59,18 @@
 
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1))
+        let j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]]
       }
       return array
     }
 
     function createField(arr) {
-      let cardsList = document.createElement("ul");
+      let cardsList = document.createElement("ul")
       let idCount = 0
 
       for (i of shuffle(arr)) {
-        let card = document.createElement("li");
+        let card = document.createElement("li")
 
         if (arr.length <= 16) {
             card.classList.add("card_1");
